@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: url('arxa.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* Stack the content vertically */
+        }
+
+        .form-wrapper {
+            border-radius: 4px;
+            padding: 40px;
+            width: 400px;
+            background: rgba(0, 0, 0, .75);
+            text-align: center;
+            margin-top: 100px; /* Adds space for logo */
+            z-index: 10; /* Keeps it on top of other content */
+        }
+
+        nav {
+            position: fixed; /* Fixes the logo position */
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100; /* Makes sure logo stays on top */
+        }
+
+        nav a img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .form-wrapper h2 {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            height: 50px;
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .form-control input {
+            height: 100%;
+            width: 100%;
+            background: #333;
+            border: none;
+            outline: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+            padding: 0 20px;
+        }
+
+        .form-control label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            pointer-events: none;
+            color: #8c8c8c;
+            transition: all 0.1s ease;
+        }
+
+        .form-control input:focus, .form-control input:valid {
+            background: #444;
+        }
+
+        .form-control input:focus ~ label, .form-control input:valid ~ label {
+            font-size: 0.75rem;
+            transform: translateY(-130%);
+        }
+
+        form button {
+            width: 100%;
+            padding: 16px 0;
+            font-size: 1rem;
+            background: #e50914;
+            color: #fff;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            outline: none;
+            margin: 25px 0 10px;
+            cursor: pointer;
+            transition: 0.1s ease;
+        }
+
+        form button:hover {
+            background: #c40812;
+        }
+
+        .form-wrapper small {
+            display: block;
+            margin-top: 15px;
+            color: #b3b3b3;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 740px) {
+            .form-wrapper {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#"><img src="logo.jpg" alt="logo"></a>
+    </nav>
+    <div class="form-wrapper">
+        <h2> HackDram</h2>
+        <form id="login-form">
+            <div class="form-control">
+                <input type="text" id="username" required>
+                <label> Sizə verilən isdifadəçi adı </label>
+            </div>
+            <div class="form-control">
+                <input type="password" id="password" required>
+                <label>Sizə verilən parol</label>
+            </div>
+            <button type="submit"> Giriş əldə et</button>
+            <div class="error-message" id="error-message"> Yanlış isdifadəçi adi və ya parol !</div>
+        </form>
+        <small>
+            Bizim scriptləri kopyalayan və bizim adımızdan insanlara yazanlara inanmayın ! 
+            Tək rəsmi tiktok HackDram
+            <a href=" https://www.tiktok.com/@legalizim?_t=ZN-8t8haFLXox8&_r=1"> TikTok səhifəmiz üçün tıklayın</a>
+        </small>
+    </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Kontrol edilen doğru kullanıcı adı ve şifre
+            const validUsername = '1';
+            const validPassword = '1';
+
+            if (username.value === validUsername && password.value === validPassword) {
+                window.location.href = 'index.html'; // Başarılı giriş sonrası yönlendirme
+            } else {
+                errorMessage.style.display = 'block';
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, 2000); // 2 saniye sonra hata mesajını gizle
+            }
+        });
+    </script>
+</body>
+</html>

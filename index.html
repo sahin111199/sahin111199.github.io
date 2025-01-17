@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviator Hack Simulation</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: white;
+    }
+
+    .circle {
+      width: 150px;
+      height: 150px;
+      border: 10px solid red;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: hacking 1.5s infinite;
+      animation-play-state: paused;
+      text-align: center;
+    }
+
+    .circle .title {
+      position: absolute;
+      top: -40px;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px red, 0 0 20px red;
+    }
+
+    @keyframes hacking {
+      0% {
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(255, 0, 0, 0.8), 0 0 60px rgba(255, 0, 0, 0.5);
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 50px rgba(255, 0, 0, 0.4);
+      }
+    }
+
+    .circle img {
+      width: 80px;
+      height: auto;
+      position: absolute;
+      animation: fly 1s ease-in-out infinite alternate;
+      animation-play-state: paused;
+    }
+
+    .multiplier {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff00;
+      margin-top: 20px;
+      visibility: hidden;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:disabled {
+      background-color: #6c757d;
+    }
+
+    .log {
+      color: #00ff00;
+      font-family: monospace;
+      font-size: 18px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      visibility: hidden;
+      position: relative;
+      text-align: left;
+      max-height: 150px;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    .broken-lock, .open-lock {
+      font-size: 45px;
+      position: absolute;
+      margin-top: 200px;
+      top: 270px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .broken-lock {
+      color: #ff0000;
+      visibility: hidden;
+    }
+
+    .open-lock {
+      color: #00ff00;
+      visibility: hidden;
+    }
+
+    @keyframes lockDisappear {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="circle" id="circle">
+    <div class="title">HackDram</div>
+    <img src="aviator.jpg" alt="Aviator" id="aviator">
+  </div>
+  
+  <div class="multiplier" id="multiplier">1.00x</div>
+  
+  <button id="startBtn" onclick="startSimulation()">Start</button>
+  
+  <div id="log" class="log"></div>
+
+  <div id="broken-lock" class="broken-lock">🔒</div>
+  <div id="open-lock" class="open-lock">🔓</div>
+
+  <audio id="backgroundMusic" src="music.mp3"></audio>
+
+  <script>
+    function startSimulation() {
+      const circle = document.getElementById("circle");
+      const aviator = document.getElementById("aviator");
+      const multiplier = document.getElementById("multiplier");
+      const startBtn = document.getElementById("startBtn");
+      const log = document.getElementById("log");
+      const brokenLock = document.getElementById("broken-lock");
+      const openLock = document.getElementById("open-lock");
+      const backgroundMusic = document.getElementById("backgroundMusic");
+
+      // Musiqini səsləndir
+      backgroundMusic.play();
+
+      startBtn.disabled = true;
+      circle.style.animationPlayState = "running";
+      aviator.style.animationPlayState = "running";
+      multiplier.style.visibility = "hidden";
+      log.style.visibility = "visible";
+      log.style.opacity = 1;
+
+      let hackerLogs = [
+        "Sistem açıldı...\n",
+        "Kazino saytı yoxlanılır...\n",
+        "Əmsal tarixçəsi çəkildi...\n",
+        "Script yoxlanılır...\n",
+        "Sızma prosesi başlatıldı...\n"
+      ];
+
+      let i = 0;
+      let logInterval = setInterval(() => {
+        if (log.children.length >= 3) {
+          log.innerHTML = '';
+        }
+
+        const newLog = document.createElement('div');
+        newLog.textContent = hackerLogs[i % hackerLogs.length];
+        log.appendChild(newLog);
+
+        i++;
+
+        if (i >= 5) {
+          clearInterval(logInterval);
+
+          setTimeout(() => {
+            log.style.opacity = 0;
+            brokenLock.style.visibility = "visible";
+
+            setTimeout(() => {
+              brokenLock.style.visibility = "hidden";
+              openLock.style.visibility = "visible";
+              openLock.style.animation = "lockDisappear 1s forwards";
+
+              const randomMultiplier = (Math.random() * (10 - 1) + 1).toFixed(2);
+              multiplier.textContent = `${randomMultiplier}x`;
+              multiplier.style.visibility = "visible";
+
+              // Qırmızı dairənin və aviatorun animasiyasını dayandır
+              circle.style.animationPlayState = "paused";
+              aviator.style.animationPlayState = "paused";
+
+              setTimeout(() => {
+                resetSimulation();
+              }, 10000);
+            }, 1000);
+          }, 4000);
+        }
+      }, 1000);
+    }
+
+    function resetSimulation() {
+      const circle = document.getElementById("circle");
+      const aviator = document.getElementById("aviator");
+      const multiplier = document.getElementById("multiplier");
+      const startBtn = document.getElementById("startBtn");
+      const log = document.getElementById("log");
+      const brokenLock = document.getElementById("broken-lock");
+      const openLock = document.getElementById("open-lock");
+      const backgroundMusic = document.getElementById("backgroundMusic");
+
+      // Musiqini dayandır
+      backgroundMusic.pause();
+      backgroundMusic.currentTime = 0;
+
+      circle.style.animationPlayState = "paused";
+      aviator.style.animationPlayState = "paused";
+      multiplier.style.visibility = "hidden";
+      log.style.visibility = "hidden";
+      openLock.style.visibility = "hidden";
+      brokenLock.style.visibility = "hidden";
+      startBtn.disabled = false;
+      log.innerHTML = '';
+      log.style.opacity = 1;
+      openLock.style.animation = "";
+    }
+  </script>
+</body>
+</html>
